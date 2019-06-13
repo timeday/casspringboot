@@ -14,7 +14,7 @@ public class ExcludeUrlPatternHandler {
         if(uri == null) return true ;
         // 所有静态资源请求都被排除
         if(StringUtils.endsWithIgnoreCase(uri, ".js")
-                || StringUtils.endsWithIgnoreCase(uri, ".css")
+                || StringUtils.endsWithIgnoreCase(uri, ".d")
                 || StringUtils.endsWithIgnoreCase(uri, ".png")
                 || StringUtils.endsWithIgnoreCase(uri, ".jpg")
                 || StringUtils.endsWithIgnoreCase(uri, ".gif")

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -16,8 +17,9 @@ public class CASController {
     private CASConfig casConfig;
 
     @RequestMapping("index")
-    public String index(ModelMap map) {
-        map.addAttribute("name", "clien A");
+    public String index(ModelMap map, HttpServletRequest request) {
+        String username = request.getAttribute("credentials").toString();
+        map.addAttribute("name", username);
         return "index";
     }
 
