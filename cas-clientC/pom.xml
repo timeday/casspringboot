@@ -72,6 +72,17 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- redis 缓存 -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+            <version>1.4.1.RELEASE</version>
+        </dependency>
+        &lt;!&ndash; spring-session 共享 &ndash;&gt;
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.jasig.cas.client/cas-client-core -->
         <dependency>

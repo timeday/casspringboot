@@ -1,0 +1,9 @@
+com\cas\authentication\AccountCodeException.class
+com\cas\passwordEncode\MyEncoder.class
+com\cas\authentication\MyUserNamePasswordAuthenticationHandler.class
+com\cas\authentication\AuthenticationConfig.class
+com\cas\authentication\MyUserNamePasswordAuthenticationHandler$2.class
+com\cas\authentication\AccountRoleException.class
+com\cas\authentication\Userinfo.class
+com\cas\authentication\MyUserNamePasswordAuthenticationHandler$1.class
+com\cas\zzTest.class

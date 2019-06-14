@@ -6,7 +6,6 @@
     <link rel="stylesheet" th:href="@{${#themes.code('cas.myself.css')}}"/>
     <script th:src="@{${#themes.code('cas.javascript.file')}}"></script>
 </head>
-
 <body>
 <h2 th:text="${#themes.code('cas.page.title')}"></h2>
 <div>
@@ -35,6 +34,12 @@
                        autocomplete="off"
                        th:value="123456" />
             </div>
+        </section>
+        <section class="form-check" th:if="${rememberMeAuthenticationEnabled}">
+            <p>
+                <input type="checkbox" name="rememberMe" id="rememberMe" value="true" tabindex="5"/>
+                <label for="rememberMe" th:text="#{screen.rememberme.checkbox.title}">Remember Me</label>
+            </p>
         </section>
         <section>
             <input type="hidden" name="execution" th:value="${flowExecutionKey}" />

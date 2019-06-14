@@ -23,6 +23,7 @@ public class zzTest {
 
     @Test
     public void test() throws Exception {
+
         ConfigurableHashService hashService = new DefaultHashService();
         hashService.setPrivateSalt(ByteSource.Util.bytes(this.staticSalt));
         hashService.setHashAlgorithmName(this.algorithmName);

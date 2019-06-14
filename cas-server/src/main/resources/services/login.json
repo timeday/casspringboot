@@ -1,9 +1,9 @@
 {
   "@class" : "org.apereo.cas.services.RegexRegisteredService",
   "serviceId" : "^(https|imaps|http)://.*",
-  "name" : "mythenms",
+  "name" : "自定义登陆页",
   "id" : 1000,
-  "description" : "mythenms",
+  "description" : "自定义登陆页",
   "evaluationOrder" : 10,
-  "theme" : "mythenms"
+  "theme" : "myDefintionThenmes"
 }

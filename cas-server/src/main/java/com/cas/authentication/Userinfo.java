@@ -71,6 +71,7 @@ public class Userinfo implements Serializable {
         this.state = state;
     }
 
+
     @Override
     public String toString() {
         return "Userinfo{" +

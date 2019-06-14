@@ -2,14 +2,11 @@
 package com.cas.authentication;
 
 
-import com.cas.passwordEncode.MyEncoder;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.dao.DataAccessException;
-import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.authentication.HandlerResult;
 import org.apereo.cas.authentication.PreventedException;
 import org.apereo.cas.authentication.UsernamePasswordCredential;
-import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.handler.support.AbstractUsernamePasswordAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
@@ -25,7 +22,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -42,21 +38,10 @@ import java.util.List;
 public  class MyUserNamePasswordAuthenticationHandler extends AbstractUsernamePasswordAuthenticationHandler {
 
     /**
-     * 为了符合cacheService key的名称定义格式。
-     */
-    public static final String CSUFFIX_USERLOGIN = "_2ae941e8-21e5-4013-9568-4dcee975333a";
-
-    /**
      * 根据用户名和密码查询sql语句
      */
     @Value("${user.password.query.sql}")
     private String userQuerySql;
-
-    /**
-     * 根据ukey查询sql语句
-     */
-//    @Value("${user.ukey.query.sql}")
-//    private String uKeyQuerySql;
 
     /**
      * jdbc模板
@@ -110,7 +95,7 @@ public  class MyUserNamePasswordAuthenticationHandler extends AbstractUsernamePa
                     this.principalFactory.createPrincipal(credential.getUsername()),
                     new ArrayList<>(0));
         }else{
-            throw new AccountNotFoundException("必须是admin用户才允许通过");
+            throw new AccountRoleException("必须是admin用户才允许通过");
         }
     }
 }
