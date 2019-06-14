@@ -1,0 +1,32 @@
+验证码一般都存在Redis中，按IP进行限制。下面配置Redis
+1 新增RedisConfig
+注意：CAS在Redis票据处理时已经有了RedisConnectFactory了，所以就用它的了，不用自己在配置新的参数了。
+
+
+@Configuration
+@EnableCaching
+public class RedisConfig extends CachingConfigurerSupport {
+
+    @Bean
+    public CacheManager cacheManager(RedisTemplate redisTemplate) {
+        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+        //设置缓存过期时间
+        //cacheManager.setDefaultExpiration(60);//秒
+        return cacheManager;
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate();
+        redisTemplate.setConnectionFactory(factory);
+        redisTemplate.afterPropertiesSet();
+        RedisSerializer<String> stringRedisSerializer = new StringRedisSerializer();
+        redisTemplate.setKeySerializer(stringRedisSerializer);
+        return redisTemplate;
+    }
+
+}
+现在就可以在别的地方使用Redis了
+
+ @Autowired
+private RedisService redisService

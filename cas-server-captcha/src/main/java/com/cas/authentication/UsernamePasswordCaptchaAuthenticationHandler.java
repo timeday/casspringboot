@@ -1,37 +1,33 @@
-
 package com.cas.authentication;
 
-
+import com.cas.config.RememberMeUsernamePasswordCaptchaCredential;
 import com.cas.exception.AccountCodeException;
 import com.cas.exception.AccountRoleException;
+import com.cas.exception.CaptchaException;
 import com.cas.passwordEncode.MyEncoder;
 import com.cas.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.LockedAccountException;
+import org.apereo.cas.authentication.Credential;
 import org.apereo.cas.authentication.HandlerResult;
 import org.apereo.cas.authentication.PreventedException;
-import org.apereo.cas.authentication.UsernamePasswordCredential;
-import org.apereo.cas.authentication.handler.support.AbstractUsernamePasswordAuthenticationHandler;
+import org.apereo.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.apereo.cas.authentication.principal.PrincipalFactory;
 import org.apereo.cas.services.ServicesManager;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Map;
 
 
-/**
- * @Project casspringboot
- * @Package com.cas
- * @ClassName MyUserNamePasswordAuthenticationHandler
- * @Descripition 自定义处理器 非验证码的 只用于密码验证
- * @Author able
- * @Date 2019/6/13 15:55
- * @Version 1.0
- **/
+public class UsernamePasswordCaptchaAuthenticationHandler extends AbstractPreAndPostProcessingAuthenticationHandler {
 
-public  class MyUserNamePasswordAuthenticationHandler extends AbstractUsernamePasswordAuthenticationHandler {
 
     private UserService userService;
+
+
     public UserService getUserService() {
         return userService;
     }
@@ -40,12 +36,22 @@ public  class MyUserNamePasswordAuthenticationHandler extends AbstractUsernamePa
         this.userService = userService;
     }
 
-    public MyUserNamePasswordAuthenticationHandler(String name, ServicesManager servicesManager, PrincipalFactory principalFactory, Integer order) {
+    public UsernamePasswordCaptchaAuthenticationHandler(String name, ServicesManager servicesManager, PrincipalFactory principalFactory, Integer order) {
         super(name, servicesManager, principalFactory, order);
     }
 
     @Override
-    protected HandlerResult authenticateUsernamePasswordInternal(UsernamePasswordCredential myCredential, String originalPassword) throws GeneralSecurityException, PreventedException {
+    protected HandlerResult doAuthentication(Credential credential) throws GeneralSecurityException, PreventedException {
+        RememberMeUsernamePasswordCaptchaCredential myCredential = (RememberMeUsernamePasswordCaptchaCredential) credential;
+        String requestCaptcha = myCredential.getCaptcha();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        Object attribute = attributes.getRequest().getSession().getAttribute("captcha");
+
+        String realCaptcha = attribute == null ? null : attribute.toString();
+
+        if(StringUtils.isBlank(requestCaptcha) || !requestCaptcha.toUpperCase().equals(realCaptcha)){
+            throw new CaptchaException("验证码错误");
+        }
         String username = myCredential.getUsername();
         MyEncoder myEncoder=new MyEncoder();
         String password = myCredential.getUsername();
@@ -63,6 +69,11 @@ public  class MyUserNamePasswordAuthenticationHandler extends AbstractUsernamePa
         if ("1".equals(user.get("state"))) {
             throw new LockedAccountException("账号已被锁定,请联系管理员！");
         }
-        return createHandlerResult(myCredential, this.principalFactory.createPrincipal(username),new ArrayList<>(0));
+        return createHandlerResult(credential, this.principalFactory.createPrincipal(username),new ArrayList<>(0));
+    }
+
+    @Override
+    public boolean supports(Credential credential) {
+        return credential instanceof RememberMeUsernamePasswordCaptchaCredential;
     }
 }

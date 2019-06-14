@@ -1,4 +1,4 @@
-package com.cas.authentication;
+package com.cas.exception;
 
 /**
  * @Project casspringboot

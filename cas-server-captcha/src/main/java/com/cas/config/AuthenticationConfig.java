@@ -1,5 +1,7 @@
-package com.cas.authentication;
+package com.cas.config;
 
+import com.cas.authentication.MyUserNamePasswordAuthenticationHandler;
+import com.cas.service.UserService;
 import org.apereo.cas.authentication.AuthenticationEventExecutionPlan;
 import org.apereo.cas.authentication.AuthenticationEventExecutionPlanConfigurer;
 import org.apereo.cas.authentication.AuthenticationHandler;
@@ -38,7 +40,8 @@ public class AuthenticationConfig implements AuthenticationEventExecutionPlanCon
     @Qualifier("jdbcPrincipalFactory")
     public PrincipalFactory jdbcPrincipalFactory;
 
-
+    @Autowired
+    private UserService userService;
      /*
      * 注册验证器
      *
@@ -49,6 +52,9 @@ public class AuthenticationConfig implements AuthenticationEventExecutionPlanCon
     public AuthenticationHandler customAuthenticationHandler() {
         //优先验证
         MyUserNamePasswordAuthenticationHandler handler = new MyUserNamePasswordAuthenticationHandler(MyUserNamePasswordAuthenticationHandler.class.getSimpleName(), servicesManager, new DefaultPrincipalFactory(), 1);
+        //此处需要设置 如果不设置则不生效
+        handler.setUserService(userService);
+
         return handler;
 
     }
