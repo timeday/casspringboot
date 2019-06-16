@@ -3,8 +3,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title th:text="${#themes.code('cas.page.title')}"></title>
-    <link rel="stylesheet" th:href="@{${#themes.code('cas.myself.css')}}"/>
-    <script th:src="@{${#themes.code('cas.javascript.file')}}"></script>
+    <script type="text/javascript" th:src="@{/themes/js/jquery-1.4.2.min.js}" ></script>
+    <script type="text/css" th:src="@{/themes/css/cas.css}" ></script>
+    <script type="text/javascript">
+        function refreshCaptcha(){
+            $("#captcha_img").attr("src","/cas/captcha.jpg?id=" + new Date() + Math.floor(Math.random()*24));
+        }
+    </script>
 </head>
 <body>
 <h2 th:text="${#themes.code('cas.page.title')}"></h2>
@@ -33,6 +38,15 @@
                        th:field="*{password}"
                        autocomplete="off"
                        th:value="123456" />
+            </div>
+        </section>
+        <section class="row" >
+            <div>
+                <input type="text" class="required" size="25" tabindex="2"
+                       id="captcha"
+                       placeholder="验证码"
+                       th:field="*{captcha}" autocomplete="off"/>
+                <img th:src="@{/captcha.jpg}" id="captcha_img" onclick="refreshCaptcha()"/>
             </div>
         </section>
         <section class="form-check" th:if="${rememberMeAuthenticationEnabled}">
