@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ossdemo.cas.dao.UserMapper" >
+
+    <!--查询用户信息-->
+    <select id="selectUser" resultType="com.ossdemo.cas.dao.entity.SysUser">
+      select uid,username,`password`,`name`,id_card_num,state from user_info WHERE username = #{username}
+    </select>
+
+</mapper>

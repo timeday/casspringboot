@@ -67,7 +67,7 @@ public class ShiroCasConfiguration {
          // 设置cas登录服务器地址的前缀
          myShiroCasRealm.setCasServerUrlPrefix("http://www.server.com:8443/cas/");
          //客户端回调地址，登录成功后的跳转的地址（自己的服务器）
-        myShiroCasRealm.setCasService("");
+        myShiroCasRealm.setCasService("http://www.client1.com:9003/logout/success");
 
         return myShiroCasRealm;
     }
