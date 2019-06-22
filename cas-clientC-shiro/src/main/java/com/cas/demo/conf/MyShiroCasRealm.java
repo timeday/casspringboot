@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cas.CasRealm;
@@ -33,14 +34,7 @@ public class MyShiroCasRealm extends CasRealm {
         System.out.println("进行授权 -------->");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         String name = (String) super.getAvailablePrincipal(principalCollection);
-        /*UserInfo byUsername = userInfoService.findByUsername(name);
-
-        for (SysRole role : byUsername.getRoleList()) {
-            info.addRole(role.getRole());
-            for (SysPermission permission : role.getPermissions()) {
-                info.addStringPermission(permission.getPermission());
-            }
-        }*/
+       //TODO 角色信息等
         return info;
     }
 
@@ -57,7 +51,7 @@ public class MyShiroCasRealm extends CasRealm {
         AuthenticationInfo authenticationInfo = super.doGetAuthenticationInfo(authenticationToken);
         String name = (String) authenticationInfo.getPrincipals().getPrimaryPrincipal();
         SecurityUtils.getSubject().getSession().setAttribute("no", name);
-
-        return authenticationInfo;
+       // 由于执行之前被CAS拦截过，所以一定是认证过，此处使用一个固定值作为任意帐号密码使用于Shiro认证
+        return new SimpleAuthenticationInfo(name, "DEFULT_PASSWORD", this.getName());
     }
 }

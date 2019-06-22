@@ -2,7 +2,6 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   org.apereo.cas.config.CasEmbeddedContainerTomcatConfiguration,\
    com.cas.config.SpringConfig,\
   com.cas.config.Myconfig,\
-  com.cas.config.UsernamePasswordCaptchaConfiguration,\
-  com.cas.config.AuthenticationConfig
+  com.cas.config.UsernamePasswordCaptchaConfiguration
 
 
