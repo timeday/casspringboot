@@ -188,7 +188,7 @@
     </dependencies>
 
     <properties>
-        <cas.version>5.2.6</cas.version>
+        <cas.version>6.4.2</cas.version>
         <springboot.version>2.0.0.RELEASE</springboot.version>
         <!-- app.server could be -jetty, -undertow, -tomcat, or blank if you plan to provide appserver -->
         <app.server>-tomcat</app.server>
